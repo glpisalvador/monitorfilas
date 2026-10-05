@@ -1,0 +1,230 @@
+/* Plugin Monitor de Filas - visual próximo do GLPI nativo: poucas cores, claras e transparentes.
+   Os ícones de status são os do próprio GLPI (classe itilstatus). */
+
+.monitorfilas, .monitorfilas-ms {
+    --mf-borda: var(--tblr-border-color, #dee2e6);
+    --mf-fundo: var(--tblr-bg-surface, #fff);
+    --mf-fundo-2: var(--tblr-bg-surface-secondary, #f8f9fa);
+    --mf-texto: var(--tblr-body-color, #333);
+    --mf-texto-2: var(--tblr-secondary, #6c757d);
+    --mf-primaria: var(--tblr-primary, #206bc4);
+    font-size: 12px;
+}
+.monitorfilas { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
+.monitorfilas [data-monitorfilas-conteudo] { display: flex; flex-direction: column; gap: 12px; }
+.monitorfilas a { text-decoration: none; }
+
+/* ---------------------------------------------------------------- barra */
+.monitorfilas-barra {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px;
+    padding: 8px 12px; background: var(--mf-fundo); border: 1px solid var(--mf-borda); border-radius: 4px;
+    position: relative; z-index: 20;
+}
+.monitorfilas-barra-filtro, .monitorfilas-barra-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.monitorfilas-rotulo { font-size: 12px; font-weight: 600; color: var(--mf-texto-2); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.monitorfilas-filtro-grupos { width: 320px; max-width: 100%; }
+.monitorfilas-relogio { color: var(--mf-texto-2); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.monitorfilas-relogio b { color: var(--mf-texto); font-weight: 600; }
+.monitorfilas-barra-acoes .btn { display: inline-flex; align-items: center; gap: 4px; }
+.monitorfilas-atualizando [data-monitorfilas-atualizar] i { animation: monitorfilas-girar .8s linear infinite; }
+.monitorfilas-atualizando [data-monitorfilas-conteudo] { opacity: .65; transition: opacity .2s; }
+@keyframes monitorfilas-girar { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------------- cards */
+.monitorfilas-card { border: 1px solid var(--mf-borda); border-radius: 4px; box-shadow: none; background: var(--mf-fundo); margin: 0; overflow: visible; }
+.monitorfilas-card > .card-header {
+    background: var(--mf-fundo-2); padding: 9px 14px; border-bottom: 1px solid var(--mf-borda); min-height: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.monitorfilas-card > .card-header h5 { margin: 0; font-size: 14px; font-weight: 600; color: var(--mf-texto); display: flex; align-items: center; gap: 8px; }
+.monitorfilas-card > .card-header h5 i { color: var(--mf-texto-2); }
+.monitorfilas-card > .card-body { padding: 10px 14px; overflow: visible; }
+.monitorfilas-grupo-total {
+    min-width: 30px; padding: 1px 8px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 12px;
+    background: var(--mf-fundo); color: var(--mf-texto); border: 1px solid var(--mf-borda);
+}
+
+/* ---------------------------------------------------------------- totais */
+.monitorfilas-totais { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.monitorfilas-total { padding: 10px 12px; background: var(--mf-fundo); border: 1px solid var(--mf-borda); border-radius: 4px; display: flex; flex-direction: column; gap: 8px; }
+.monitorfilas-total-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 600; color: var(--mf-texto); }
+.monitorfilas-total-topo i { color: var(--mf-texto-2); margin-right: 4px; }
+.monitorfilas-total-numero { font-size: 22px; font-weight: 600; color: var(--mf-texto); line-height: 1; }
+.monitorfilas-total-numero:hover { color: var(--mf-primaria); }
+.monitorfilas-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.monitorfilas-chip {
+    display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 10px; font-size: 11px; white-space: nowrap;
+    border: 1px solid var(--mf-borda); background: var(--mf-fundo-2); color: var(--mf-texto);
+}
+.monitorfilas-chip b { font-weight: 600; }
+.monitorfilas-chip .itilstatus, .monitorfilas-chip i { margin: 0; font-size: 12px; }
+a.monitorfilas-chip:hover { border-color: var(--mf-primaria); color: var(--mf-texto); }
+.monitorfilas-chip-ok { background: rgba(47, 179, 68, 0.08); border-color: rgba(47, 179, 68, 0.28); color: #1d7a32; }
+.monitorfilas-chip-aviso { background: rgba(245, 159, 0, 0.1); border-color: rgba(245, 159, 0, 0.32); color: #7a5200; }
+.monitorfilas-chip-erro { background: rgba(214, 57, 57, 0.08); border-color: rgba(214, 57, 57, 0.28); color: #b02a37; }
+.monitorfilas-chip-atraso { background: rgba(247, 103, 7, 0.08); border-color: rgba(247, 103, 7, 0.28); color: #a84d06; }
+.monitorfilas-chip-neutro { background: rgba(108, 117, 125, 0.08); border-color: rgba(108, 117, 125, 0.25); color: #41464b; }
+.monitorfilas-chip.ativo { box-shadow: 0 0 0 2px rgba(32, 107, 196, 0.35); font-weight: 600; }
+
+/* ---------------------------------------------------------------- grupos */
+.monitorfilas-grupos { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; align-items: start; }
+.monitorfilas-grupo > .card-body { display: flex; flex-direction: column; gap: 10px; }
+.monitorfilas-secao { display: flex; flex-direction: column; }
+.monitorfilas-secao + .monitorfilas-secao { border-top: 1px solid #f0f0f0; padding-top: 8px; }
+.monitorfilas-secao-titulo {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; color: var(--mf-texto-2); list-style: none; cursor: default;
+}
+.monitorfilas-secao-titulo i { margin-right: 4px; }
+.monitorfilas-contador { font-size: 12px; font-weight: 600; color: var(--mf-texto); padding: 0 6px; border-radius: 8px; }
+a.monitorfilas-contador:hover { background: rgba(32, 107, 196, 0.08); color: var(--mf-primaria); }
+.monitorfilas-zero { color: #bbb; font-weight: 400; }
+.monitorfilas-linha { display: flex; align-items: center; gap: 6px; padding: 3px 6px; border-radius: 3px; color: var(--mf-texto); }
+.monitorfilas-linha:hover { background: var(--mf-fundo-2); }
+.monitorfilas-linha > i:first-child { width: 16px; text-align: center; font-size: 13px; }
+.monitorfilas-linha > span { flex: 1; min-width: 0; }
+.monitorfilas-valor { font-weight: 600; color: var(--mf-texto); min-width: 26px; text-align: right; padding: 0 4px; border-radius: 3px; }
+a.monitorfilas-valor:hover { color: var(--mf-primaria); background: rgba(32, 107, 196, 0.08); }
+
+.monitorfilas-detalhes > summary { cursor: pointer; }
+.monitorfilas-detalhes > summary::-webkit-details-marker { display: none; }
+.monitorfilas-detalhes .monitorfilas-seta { transition: transform .2s; margin: 0; }
+.monitorfilas-detalhes:not([open]) .monitorfilas-seta { transform: rotate(-90deg); }
+.monitorfilas-tecnico { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto auto; align-items: center; gap: 6px; padding: 3px 6px; border-radius: 3px; }
+.monitorfilas-tecnico:hover { background: var(--mf-fundo-2); }
+.monitorfilas-tipo { color: #aaa; font-size: 12px; }
+.monitorfilas-tecnico-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--mf-texto); }
+.monitorfilas-tecnico-status { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.monitorfilas-mini { display: inline-flex; align-items: center; gap: 2px; padding: 0 6px; border-radius: 8px; font-size: 11px; color: var(--mf-texto); border: 1px solid var(--mf-borda); }
+.monitorfilas-mini .itilstatus { margin: 0; font-size: 11px; }
+a.monitorfilas-mini:hover { border-color: var(--mf-primaria); }
+
+.monitorfilas-sla { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 3px 0; }
+.monitorfilas-sla-grupo { font-size: 11px; color: var(--mf-texto-2); min-width: 118px; }
+.monitorfilas-faixas .monitorfilas-sla-grupo { min-width: 0; margin-left: 6px; font-weight: 600; }
+
+.monitorfilas-parado { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 5px 6px; border-radius: 3px; color: var(--mf-texto); }
+.monitorfilas-parado:hover { background: var(--mf-fundo-2); color: var(--mf-texto); }
+.monitorfilas-parado-id { font-weight: 600; color: var(--mf-texto-2); white-space: nowrap; display: inline-flex; align-items: center; }
+.monitorfilas-parado-id .itilstatus { margin-right: 3px; }
+.monitorfilas-parado-texto { display: flex; flex-direction: column; min-width: 0; }
+.monitorfilas-parado-titulo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.monitorfilas-parado-texto small, .monitorfilas-parado-tempo small { color: #999; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.monitorfilas-parado-tempo { display: flex; flex-direction: column; align-items: flex-end; white-space: nowrap; }
+.monitorfilas-parado-tempo b { font-weight: 600; color: #a84d06; }
+
+/* ---------------------------------------------------------------- rankings */
+.monitorfilas-acordeao {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border: 0; background: var(--mf-fundo-2);
+    font-size: 14px; font-weight: 600; color: var(--mf-texto); cursor: pointer; border-radius: 4px;
+}
+.monitorfilas-acordeao small { font-weight: 400; color: var(--mf-texto-2); font-size: 12px; }
+.monitorfilas-acordeao i:first-child { color: var(--mf-texto-2); margin-right: 6px; }
+.monitorfilas-acordeao[aria-expanded="true"] { border-bottom: 1px solid var(--mf-borda); border-radius: 4px 4px 0 0; }
+.monitorfilas-acordeao .monitorfilas-seta { transition: transform .2s; color: var(--mf-texto-2); }
+.monitorfilas-acordeao[aria-expanded="true"] .monitorfilas-seta { transform: rotate(180deg); }
+.monitorfilas-acordeao-corpo { padding: 12px 14px; }
+.monitorfilas-acordeao-corpo[hidden] { display: none; }
+.monitorfilas-carregando { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 20px; color: #999; }
+.monitorfilas-carregando i { animation: monitorfilas-girar .8s linear infinite; }
+.monitorfilas-ranking-grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1300px) { .monitorfilas-ranking-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .monitorfilas-ranking-grade { grid-template-columns: minmax(0, 1fr); } }
+.monitorfilas-ranking { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.monitorfilas-ranking-titulo { font-size: 13px; font-weight: 600; color: var(--mf-texto); display: flex; gap: 6px; align-items: center; }
+.monitorfilas-ranking-titulo i { color: var(--mf-texto-2); }
+.monitorfilas-ranking-desc { color: #999; font-size: 11px; margin-bottom: 4px; }
+.monitorfilas-ranking-item { display: flex; gap: 8px; align-items: flex-start; padding: 4px 6px; border-radius: 3px; color: var(--mf-texto); }
+a.monitorfilas-ranking-item:hover { background: var(--mf-fundo-2); color: var(--mf-texto); }
+.monitorfilas-ranking-pos {
+    flex: 0 0 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; background: var(--mf-fundo-2); color: var(--mf-texto-2); border: 1px solid var(--mf-borda);
+}
+.monitorfilas-ranking-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.monitorfilas-ranking-linha { display: flex; justify-content: space-between; gap: 8px; }
+.monitorfilas-ranking-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.monitorfilas-ranking-linha b { white-space: nowrap; font-weight: 600; }
+.monitorfilas-ranking-info small { color: #999; font-size: 11px; }
+.monitorfilas-ranking-barra { height: 4px; border-radius: 2px; background: #eef0f2; overflow: hidden; }
+.monitorfilas-ranking-barra > span { display: block; height: 100%; border-radius: 2px; background: rgba(32, 107, 196, 0.4); }
+
+/* ---------------------------------------------------------------- tabela SLA */
+.monitorfilas-tabela { margin: 0; font-size: 12px; }
+.monitorfilas-tabela thead th {
+    background: var(--mf-fundo-2); color: var(--mf-texto-2); font-size: 11px; font-weight: 600; text-transform: uppercase;
+    padding: 8px 10px; border-bottom: 1px solid var(--mf-borda); white-space: nowrap;
+}
+.monitorfilas-tabela td { padding: 7px 10px; vertical-align: middle; color: var(--mf-texto); }
+.monitorfilas-tabela a { font-weight: 500; }
+.monitorfilas-progresso { position: relative; display: block; height: 16px; border-radius: 8px; background: #e9ecef; overflow: hidden; }
+.monitorfilas-progresso > span { display: block; height: 100%; border-radius: 8px; }
+.monitorfilas-progresso > em { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 10px; font-weight: 700; color: #333; }
+.monitorfilas-progresso-ok > span { background: rgba(47, 179, 68, 0.45); }
+.monitorfilas-progresso-aviso > span { background: rgba(245, 159, 0, 0.5); }
+.monitorfilas-progresso-erro > span { background: rgba(214, 57, 57, 0.45); }
+
+/* ---------------------------------------------------------------- vazio */
+.monitorfilas-vazio { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 24px 10px; color: #999; flex-wrap: wrap; }
+.monitorfilas-vazio i { font-size: 20px; }
+.monitorfilas-vazio-pequeno { padding: 10px; justify-content: flex-start; font-size: 11px; }
+
+/* ---------------------------------------------------------------- configuração */
+.monitorfilas-config { max-width: 1100px; margin: 0 auto; }
+.monitorfilas-grade-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; }
+.monitorfilas-grade-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 20px; }
+@media (max-width: 900px) { .monitorfilas-grade-2, .monitorfilas-grade-3 { grid-template-columns: minmax(0, 1fr); } }
+.monitorfilas-campo { display: flex; flex-direction: column; gap: 6px; }
+.monitorfilas-campo > label { font-size: 12px; font-weight: 600; color: var(--mf-texto); margin: 0; }
+.monitorfilas-campo small { font-size: 11px; color: var(--mf-texto-2); }
+.monitorfilas-inline { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: 12px; cursor: pointer; }
+.monitorfilas-curto { max-width: 220px; }
+.monitorfilas-dica { margin: 0 0 10px; font-size: 12px; color: var(--mf-texto-2); display: flex; gap: 6px; }
+.monitorfilas-dica i { margin-top: 2px; }
+.monitorfilas-rodape { display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--mf-borda); }
+.monitorfilas-btn-salvar { background: #e5a54b; border-color: #e5a54b; color: #fff; }
+.monitorfilas-btn-salvar:hover, .monitorfilas-btn-salvar:focus { background: #d9973b; border-color: #d9973b; color: #fff; }
+.monitorfilas-config form + form { margin-top: 12px; }
+
+/* Checkbox */
+.monitorfilas-check {
+    -webkit-appearance: none; appearance: none; width: 1.15em; height: 1.15em; flex: 0 0 auto; margin: 0; position: relative; cursor: pointer;
+    border: 2px solid #d0d0d0; border-radius: 3px; background: var(--mf-fundo, #fff); transition: all .15s ease-in-out; vertical-align: middle;
+}
+.monitorfilas-check:hover { border-color: #e0b830; }
+.monitorfilas-check:focus { outline: none; border-color: #e0b830; box-shadow: 0 0 0 .2rem rgba(240, 201, 70, 0.25); }
+.monitorfilas-check:checked, .monitorfilas-check:indeterminate { background: #f0c946; border-color: #e0b830; }
+.monitorfilas-check:checked::after {
+    content: ''; position: absolute; left: 50%; top: 45%; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: translate(-50%, -50%) rotate(45deg);
+}
+.monitorfilas-check:indeterminate::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 2px; background: #fff; transform: translate(-50%, -50%); }
+
+/* Multiselect */
+.monitorfilas-ms { position: relative; }
+.monitorfilas-ms-cabecalho { text-align: left; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.monitorfilas-ms-vazio { color: #999; }
+.monitorfilas-ms-aberto .monitorfilas-ms-cabecalho { border-color: var(--mf-primaria); }
+.monitorfilas-ms-dropdown {
+    position: absolute; left: 0; top: calc(100% + 2px); z-index: 1050; min-width: 280px; width: 100%;
+    background: var(--mf-fundo); border: 1px solid var(--mf-borda); border-radius: 4px; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+.monitorfilas-ms-dropdown[hidden] { display: none; }
+.monitorfilas-ms-topo { padding: 8px; }
+.monitorfilas-ms-busca { max-width: 350px; }
+.monitorfilas-ms-todos {
+    display: flex; align-items: center; gap: 8px; margin: 0; padding: 5px 10px; cursor: pointer; background: #f0f0f0;
+    border-top: 1px solid var(--mf-borda); border-bottom: 1px solid var(--mf-borda); font-size: 11px; font-weight: 600; color: #6c757d;
+}
+.monitorfilas-ms-opcoes { max-height: 280px; overflow-y: auto; }
+.monitorfilas-ms-opcao { display: flex; align-items: center; gap: 8px; padding: 5px 10px; margin: 0; cursor: pointer; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+.monitorfilas-ms-opcao:hover { background: var(--mf-fundo-2); }
+.monitorfilas-ms-opcao.selected { background: #e8f4fc; }
+.monitorfilas-ms-contador { margin-top: 3px; font-size: 11px; color: #999; }
+.monitorfilas-barra .monitorfilas-ms-contador { display: none; }
+[data-bs-theme="dark"] .monitorfilas-ms-todos { background: rgba(255, 255, 255, 0.04); }
+[data-bs-theme="dark"] .monitorfilas-ms-opcao.selected { background: rgba(32, 107, 196, 0.15); }
+[data-bs-theme="dark"] .monitorfilas-progresso, [data-bs-theme="dark"] .monitorfilas-ranking-barra { background: rgba(255, 255, 255, 0.08); }
+
+/* ---------------------------------------------------------------- tela cheia (TV / NOC) */
+.monitorfilas.monitorfilas-tv { background: var(--tblr-body-bg, #f6f7f9); padding: 16px; overflow-y: auto; font-size: 13px; }
+.monitorfilas-tv .monitorfilas-grupos { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+.monitorfilas-tv .monitorfilas-total-numero { font-size: 28px; }
